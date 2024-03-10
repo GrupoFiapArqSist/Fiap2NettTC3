@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Reflection;
 
-namespace Custumer.Domain.Filters.Extensions;
+namespace Customer.Domain.Filters.Extensions;
 
 public static class EnumExtensions
 {

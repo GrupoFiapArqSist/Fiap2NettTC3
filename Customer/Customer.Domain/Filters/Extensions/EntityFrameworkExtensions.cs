@@ -1,7 +1,7 @@
 ﻿using Customer.Domain.Filters;
 using System.Linq.Dynamic.Core;
 
-namespace Custumer.Domain.Filters.Extensions;
+namespace Customer.Domain.Filters.Extensions;
 
 public static class EntityFrameworkExtensions
 {

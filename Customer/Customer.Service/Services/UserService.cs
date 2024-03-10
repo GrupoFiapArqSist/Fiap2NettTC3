@@ -11,7 +11,7 @@ using Customer.Infra.CrossCutting.Azure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
-using Custumer.Domain.Filters.Extensions;
+using Customer.Domain.Filters.Extensions;
 
 namespace Customer.Service.Services;
 

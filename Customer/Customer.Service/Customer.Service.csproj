@@ -13,8 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Custumer.Domain\Custumer.Domain.csproj" />
-    <ProjectReference Include="..\Custumer.Infra.CrossCutting\Custumer.Infra.CrossCutting.csproj" />
+    <ProjectReference Include="..\Customer.Domain\Customer.Domain.csproj" />
+    <ProjectReference Include="..\Customer.Infra.CrossCutting\Customer.Infra.CrossCutting.csproj" />
   </ItemGroup>
 
 </Project>

@@ -3,7 +3,7 @@ using Customer.Domain.Dtos.User;
 using Customer.Domain.Filters;
 using Customer.Domain.Interfaces.Services;
 using Customer.Domain.Utilities;
-using Custumer.Domain.Filters.Extensions;
+using Customer.Domain.Filters.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;

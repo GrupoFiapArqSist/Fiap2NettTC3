@@ -22,9 +22,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Custumer.Infra.CrossCutting\Custumer.Infra.CrossCutting.csproj" />
-		<ProjectReference Include="..\Custumer.Infra.Data\Custumer.Infra.Data.csproj" />
-		<ProjectReference Include="..\Custumer.Service\Custumer.Service.csproj" />
+		<ProjectReference Include="..\Customer.Infra.CrossCutting\Customer.Infra.CrossCutting.csproj" />
+		<ProjectReference Include="..\Customer.Infra.Data\Customer.Infra.Data.csproj" />
+		<ProjectReference Include="..\Customer.Service\Customer.Service.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

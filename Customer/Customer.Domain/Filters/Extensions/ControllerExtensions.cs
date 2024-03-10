@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
-namespace Custumer.Domain.Filters.Extensions;
+namespace Customer.Domain.Filters.Extensions;
 
 public static class ControllerExtensions
 {
