@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using Customer.Domain.Dtos.Auth;
-using Customer.Domain.Dtos.Default;
 using Customer.Domain.Entities;
 using Customer.Domain.Interfaces.Services;
 using Customer.Domain.Utilities;
-using Customer.Infra.CrossCutting.Notifications;
 using Customer.Service.Validators.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +12,9 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using TicketNow.Domain.Dtos.Default;
+using TicketNow.Infra.CrossCutting.Notifications;
+using TicketNow.Service.Services;
 
 namespace Customer.Service.Services;
 

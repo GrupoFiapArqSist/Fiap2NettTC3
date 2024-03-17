@@ -1,24 +1,22 @@
 using AutoMapper;
-using Azure.Identity;
 using Customer.Api.Filters;
 using Customer.Api.Mapper;
 using Customer.Domain.Entities;
-using Customer.Domain.Enums;
 using Customer.Domain.Interfaces.Repositories;
 using Customer.Domain.Interfaces.Services;
-using Customer.Infra.CrossCutting.Notifications;
 using Customer.Infra.Data.Context;
 using Customer.Infra.Data.Repositories;
 using Customer.Service.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Azure;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using System.Text.Json.Serialization;
-
+using TicketNow.Domain.Interfaces.Services;
+using TicketNow.Infra.CrossCutting.Notifications;
+using TicketNow.Service.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;

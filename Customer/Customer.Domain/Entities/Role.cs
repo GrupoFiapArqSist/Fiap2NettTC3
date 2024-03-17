@@ -1,14 +1,14 @@
-﻿using Customer.Domain.Interfaces.Entities;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
+using TicketNow.Domain.Interfaces.Entities;
 
 namespace Customer.Domain.Entities;
 
-    public class Role : IdentityRole<int>, IEntity<int>
+public class Role : IdentityRole<int>, IEntity<int>
+{
+    public Role(string roleName)
     {
-        public Role(string roleName)
-        {
-            Name = roleName;
-            NormalizedName = roleName;
-        }
-        public Role() { }
+        Name = roleName;
+        NormalizedName = roleName;
     }
+    public Role() { }
+}

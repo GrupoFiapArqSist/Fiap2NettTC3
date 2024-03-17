@@ -1,4 +1,6 @@
-﻿namespace Event.Domain.Interfaces.Repositories;
+﻿using TicketNow.Domain.Interfaces.Repositories;
+
+namespace Event.Domain.Interfaces.Repositories;
 public interface IEventRepository : IBaseRepository<Domain.Entities.Event, int>
 {
     Task<Domain.Entities.Event> ExistsByName(string name);

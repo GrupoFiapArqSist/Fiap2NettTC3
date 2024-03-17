@@ -1,6 +1,7 @@
 ﻿using Customer.Domain.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using TicketNow.Domain.Entities;
 
 namespace Customer.Infra.Data.Context;
 

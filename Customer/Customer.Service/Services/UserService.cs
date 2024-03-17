@@ -1,17 +1,18 @@
 ﻿using AutoMapper;
-using Customer.Domain.Dtos.Default;
 using Customer.Domain.Dtos.User;
 using Customer.Domain.Entities;
 using Customer.Domain.Filters;
 using Customer.Domain.Interfaces.Repositories;
 using Customer.Domain.Interfaces.Services;
-using Customer.Infra.CrossCutting.Notifications;
 using Customer.Service.Validators.User;
-using Customer.Infra.CrossCutting.Azure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
-using Customer.Domain.Filters.Extensions;
+using TicketNow.Domain.Dtos.Default;
+using TicketNow.Domain.Extensions;
+using TicketNow.Infra.CrossCutting.Azure;
+using TicketNow.Infra.CrossCutting.Notifications;
+using TicketNow.Service.Services;
 
 namespace Customer.Service.Services;
 
