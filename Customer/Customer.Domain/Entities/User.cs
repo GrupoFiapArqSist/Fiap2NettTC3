@@ -1,6 +1,6 @@
 ﻿using Customer.Domain.Enums;
-using Customer.Domain.Interfaces.Entities;
 using Microsoft.AspNetCore.Identity;
+using TicketNow.Domain.Interfaces.Entities;
 
 namespace Customer.Domain.Entities;
 

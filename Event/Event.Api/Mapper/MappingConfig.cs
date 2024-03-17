@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Event.Domain.Dtos.Event;
-using Event.Domain.Entities;
 
 namespace Event.Api.Mapper;
 

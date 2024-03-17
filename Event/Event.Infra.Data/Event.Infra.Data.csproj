@@ -23,8 +23,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\TicketNow.Infra.Data\TicketNow.Infra.Data.csproj" />
     <ProjectReference Include="..\Event.Domain\Event.Domain.csproj" />
     <ProjectReference Include="..\Event.Service\Event.Service.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Seeds\_SeedHistory\" />
   </ItemGroup>
 
 </Project>
