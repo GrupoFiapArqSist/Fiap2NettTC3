@@ -71,14 +71,14 @@ public class OrderController : Controller
 		return Ok(orderDetail);
 	}
 
-    [HttpDelete]
+    [HttpDelete("{id}")]
 	[SwaggerOperation(Summary = "Cancel order by user")]
 	[SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(DefaultServiceResponseDto))]
 	[SwaggerResponse((int)HttpStatusCode.BadRequest, Type = typeof(IReadOnlyCollection<dynamic>))]
 	[SwaggerResponse((int)HttpStatusCode.InternalServerError)]
-	public async Task<IActionResult> CancelOrder(int idOrder)
+	public async Task<IActionResult> CancelOrder(int id)
 	{
-		return Ok(await _orderService.CancelOrderByUserAsync(this.GetUserIdLogged(), idOrder));
+		return Ok(await _orderService.CancelOrderByUserAsync(this.GetUserIdLogged(), id));
 	}
 
     [HttpPost]

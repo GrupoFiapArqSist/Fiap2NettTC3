@@ -166,7 +166,7 @@ if (app.Environment.IsDevelopment())
 	app.UseSwagger();
 	app.UseSwaggerUI(c =>
 	{
-		c.SwaggerEndpoint("/swagger/v1/swagger.json", "Event v1");
+		c.SwaggerEndpoint("/swagger/v1/swagger.json", "Order v1");
 		c.InjectStylesheet("/swagger-ui/SwaggerDark.css");
 	});
 }
