@@ -49,6 +49,7 @@ public class AdminController : Controller
         var response = await _userService.ApproveAsync(id);
         return Ok(response);
     }
+
     [HttpDelete("{id}")]
     [Authorize(Roles = StaticUserRoles.ADMIN)]
     [SwaggerOperation(Summary = "Delete user")]
