@@ -163,6 +163,18 @@ public class EventController : Controller
         var approveResult = await _eventService.Approve(id);
         return Ok(approveResult);
     }
+
+    [HttpPut("get-event-active-inative/{id}")]
+    [Authorize(Roles = StaticUserRoles.ADMIN)]
+    [SwaggerOperation(Summary = "Get event active or inative")]
+    [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(DefaultServiceResponseDto))]
+    [SwaggerResponse((int)HttpStatusCode.BadRequest, Type = typeof(IReadOnlyCollection<Notification>))]
+    [SwaggerResponse((int)HttpStatusCode.InternalServerError)]
+    [SwaggerResponse((int)HttpStatusCode.Unauthorized)]
+    public IActionResult GetEventActiveOrInative(int id)
+    {
+        return Ok(_eventService.GetEventActive(id));
+    }
 }
 
 

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using Order.Domain.Dtos.Event;
 using Order.Domain.Dtos.MockPayment;
 using Order.Domain.Dtos.Order;
@@ -159,4 +160,17 @@ public class OrderService : BaseService, IOrderService
             await _orderRepository.SaveChangesAsync();
         }
     }
+
+    public DefaultServiceResponseDto GetOrderActiveOnEvent(int idEvent)
+    {
+        var orderDb = _orderRepository.Select()
+            .AsQueryable()
+            .Where(db => db.Id.Equals(idEvent) && db.Status.Equals(OrderStatusEnum.Active));
+
+        if(orderDb is not null && orderDb.Any())
+            return new DefaultServiceResponseDto() { Message = StaticNotifications.EventContainsOrderActive.Message, Success = true };
+        else
+            return new DefaultServiceResponseDto() { Message = StaticNotifications.EventDontContainsOrderActive.Message, Success = true };
+    }
+
 }

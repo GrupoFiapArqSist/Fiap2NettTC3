@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
-using System.Linq.Dynamic.Core;
-using Event.Domain.Interfaces.Services;
 using Event.Domain.Dtos.Event;
 using Event.Domain.Filters;
 using Event.Domain.Interfaces.Repositories;
+using Event.Domain.Interfaces.Services;
 using Event.Service.Validators.Event;
-using TicketNow.Service.Services;
-using TicketNow.Infra.CrossCutting.Notifications;
+using System.Linq.Dynamic.Core;
 using TicketNow.Domain.Dtos.Default;
 using TicketNow.Domain.Extensions;
+using TicketNow.Infra.CrossCutting.Notifications;
+using TicketNow.Service.Services;
 
 namespace Event.Service.Services;
 
@@ -184,5 +184,25 @@ public class EventService : BaseService, IEventService
             Success = true,
             Message = StaticNotifications.EventApproved.Message
         };
+    }
+
+    public DefaultServiceResponseDto GetEventActive(int eventId)
+    {
+        var eventDb = _eventRepository
+            .Select()
+            .Where(db => db.Id.Equals(eventId) && db.Active);
+
+        if (eventDb is not null)
+            return new DefaultServiceResponseDto
+            {
+                Success = true,
+                Message = string.Format(StaticNotifications.EventAlreadyActiveOrInactive.Message, "ativo")
+            };
+        else
+            return new DefaultServiceResponseDto
+            {
+                Success = true,
+                Message = string.Format(StaticNotifications.EventAlreadyActiveOrInactive.Message, "inativo")
+            };
     }
 }
