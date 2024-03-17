@@ -22,6 +22,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\..\Common\TicketNow.Infra.CrossCutting\TicketNow.Infra.CrossCutting.csproj" />
+		<ProjectReference Include="..\..\Common\TicketNow.Service\TicketNow.Service.csproj" />
 		<ProjectReference Include="..\Order.Infra.CrossCutting\Order.Infra.CrossCutting.csproj" />
 		<ProjectReference Include="..\Order.Infra.Data\Order.Infra.Data.csproj" />
 		<ProjectReference Include="..\Order.Service\Order.Service.csproj" />

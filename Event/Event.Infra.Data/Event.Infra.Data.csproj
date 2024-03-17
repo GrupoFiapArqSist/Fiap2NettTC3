@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Seeds\**" />
+    <EmbeddedResource Remove="Seeds\**" />
+    <None Remove="Seeds\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.12" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.12">
       <PrivateAssets>all</PrivateAssets>
@@ -26,10 +32,6 @@
     <ProjectReference Include="..\..\Common\TicketNow.Infra.Data\TicketNow.Infra.Data.csproj" />
     <ProjectReference Include="..\Event.Domain\Event.Domain.csproj" />
     <ProjectReference Include="..\Event.Service\Event.Service.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Seeds\_SeedHistory\" />
   </ItemGroup>
 
 </Project>

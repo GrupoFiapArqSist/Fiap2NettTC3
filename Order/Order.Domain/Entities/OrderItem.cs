@@ -1,4 +1,5 @@
-﻿using Order.Domain.Interfaces.Entities;
+﻿using TicketNow.Domain.Entities;
+using TicketNow.Domain.Interfaces.Entities;
 
 namespace Order.Domain.Entities
 {

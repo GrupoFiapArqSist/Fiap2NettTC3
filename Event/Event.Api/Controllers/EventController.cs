@@ -1,7 +1,6 @@
 ﻿using Event.Domain.Dtos.Event;
 using Event.Domain.Filters;
 using Event.Domain.Interfaces.Services;
-using Event.Domain.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -9,6 +8,7 @@ using System.Net;
 using TicketNow.Domain.Dtos.Default;
 using TicketNow.Infra.CrossCutting.Notifications;
 using TicketNow.Domain.Extensions;
+using TicketNow.Domain.Utilities;
 
 namespace Event.Api.Controllers;
 

@@ -1,6 +1,6 @@
 ﻿using Customer.Domain.Dtos.Auth;
-using Customer.Domain.Utilities;
 using TicketNow.Domain.Dtos.Default;
+using TicketNow.Domain.Utilities;
 
 namespace Customer.Domain.Interfaces.Services;
 

@@ -1,16 +1,15 @@
 ﻿using System.ComponentModel;
 
-namespace Order.Domain.Enums
+namespace Order.Domain.Enums;
+
+public enum PaymentMethodEnum
 {
-	public enum PaymentMethodEnum
-	{
-		[Description("Ticket")]
-		Ticket = 1,
+    [Description("Ticket")]
+    Ticket = 1,
 
-		[Description("Pix")]
-		Pix = 2,
+    [Description("Pix")]
+    Pix = 2,
 
-		[Description("CreditCard")]
-		CreditCard = 3
-	}
+    [Description("CreditCard")]
+    CreditCard = 3
 }
