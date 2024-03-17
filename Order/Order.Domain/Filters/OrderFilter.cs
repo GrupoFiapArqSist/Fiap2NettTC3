@@ -1,7 +1,8 @@
-﻿namespace Order.Domain.Filters
+﻿using TicketNow.Domain.Filters;
+
+namespace Order.Domain.Filters;
+
+public class OrderFilter : _BaseFilter
 {
-    public class OrderFilter : _BaseFilter
-    {
-        public string Name { get; set; }
-    }
+    public string Name { get; set; }
 }

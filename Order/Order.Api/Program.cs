@@ -8,14 +8,15 @@ using Order.Api.Mapper;
 using Order.Domain.Interfaces.Integration;
 using Order.Domain.Interfaces.Repositories;
 using Order.Domain.Interfaces.Services;
-using Order.Infra.CrossCutting.Notifications;
 using Order.Infra.Data.Context;
 using Order.Infra.Data.Repositories;
 using Order.Service.Integration;
 using Order.Service.Services;
 using System.Text;
 using System.Text.Json.Serialization;
-
+using TicketNow.Domain.Interfaces.Services;
+using TicketNow.Infra.CrossCutting.Notifications;
+using TicketNow.Service.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;

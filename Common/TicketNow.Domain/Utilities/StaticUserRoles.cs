@@ -1,4 +1,4 @@
-﻿namespace Event.Domain.Utilities;
+﻿namespace TicketNow.Domain.Utilities;
 
 public static class StaticUserRoles
 {
