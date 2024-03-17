@@ -71,16 +71,7 @@ public class OrderController : Controller
 		return Ok(orderDetail);
 	}
 
-	[HttpPost]
-	[AllowAnonymous]
-	[Route("webhook/payments")]
-	[ApiExplorerSettings(IgnoreApi = true)]
-	public async Task<IActionResult> ReceivePaymentsNotification(PaymentsDto paymentsDto)
-	{
-		return Ok(await _orderService.ProcessPaymentsNotificationAsync(paymentsDto));
-	}
-
-	[HttpDelete]
+    [HttpDelete]
 	[SwaggerOperation(Summary = "Cancel order by user")]
 	[SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(DefaultServiceResponseDto))]
 	[SwaggerResponse((int)HttpStatusCode.BadRequest, Type = typeof(IReadOnlyCollection<dynamic>))]
@@ -89,4 +80,13 @@ public class OrderController : Controller
 	{
 		return Ok(await _orderService.CancelOrderByUserAsync(this.GetUserIdLogged(), idOrder));
 	}
+
+    [HttpPost]
+    [AllowAnonymous]
+    [Route("/payments/process")]
+    [ApiExplorerSettings(IgnoreApi = true)]
+    public async Task ReceivePaymentsProcessedNotification([FromBody] PaymentsDto paymentsDto)
+    {
+        await _orderService.ProcessPaymentsProcessedNotificationAsync(paymentsDto);
+    }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Order.Domain.Dtos.Event;
 using Order.Domain.Dtos.MockPayment;
@@ -12,9 +13,9 @@ using Order.Service.Validators.Event;
 using Order.Service.Validators.Order;
 using System.Linq.Dynamic.Core;
 using TicketNow.Domain.Dtos.Default;
+using TicketNow.Domain.Extensions;
 using TicketNow.Infra.CrossCutting.Notifications;
 using TicketNow.Service.Services;
-using TicketNow.Domain.Extensions;
 
 namespace Order.Service.Services;
 
@@ -25,10 +26,11 @@ public class OrderService : BaseService, IOrderService
     private readonly IMapper _mapper;
     private readonly IConfiguration _configuration;
     private readonly IEventIntegration _eventIntegration;
-    private readonly NotificationContext _notificationContext;    
+    private readonly NotificationContext _notificationContext;
+    private readonly IBus _bus;
 
     public OrderService(IOrderRepository orderRepository, IOrderItemRepository orderItemRepository, IMapper mapper, IConfiguration configuration,
-        IEventIntegration eventIntegration, NotificationContext notificationContext)
+        IEventIntegration eventIntegration, NotificationContext notificationContext, IBus bus)
     {
         _orderRepository = orderRepository;
         _mapper = mapper;
@@ -36,6 +38,7 @@ public class OrderService : BaseService, IOrderService
         _configuration = configuration;
         _eventIntegration = eventIntegration;
         _notificationContext = notificationContext;
+        _bus = bus;
     }
 
     public async Task<DefaultServiceResponseDto> InsertNewOrderAsync(OrderDto newOrderDto, List<AddOrderItemDto> addOrderItemDtos, string accessToken)
@@ -75,47 +78,20 @@ public class OrderService : BaseService, IOrderService
             _orderItemRepository.Insert(_mapper.Map<Domain.Entities.OrderItem>(itemOrderDto));
         };
 
-        var paymentResponse = await RequestMockApiPaymentsAsync(newOrderDb);
+        await SendPaymentsToProcessQueueuAsync(new PaymentsDto() { OrderId = newOrderDb.Id, PaymentStatus = newOrderDb.PaymentStatus, PaymentMethod = OrderDetailsDto.ReturnPaymentMethodEnum(newOrderDb.PaymentMethod) });
 
-        newOrderDb.PaymentId = paymentResponse.Id;
-        _orderRepository.Update(newOrderDb);
-        await _orderRepository.SaveChangesAsync();
-
-        if (!paymentResponse.PaymentStatus.Equals(PaymentStatusEnum.Unauthorized))
-        {
-            if (paymentResponse.PaymentStatus.Equals(PaymentStatusEnum.Paid))
-            {
-                return new DefaultServiceResponseDto()
-                {
-                    Message = StaticNotifications.OrderSucess.Message,
-                    Success = true
-                };
-            }
-
+        if (newOrderDb.Id > 0)
             return new DefaultServiceResponseDto()
             {
                 Message = StaticNotifications.OrderSucessWaitingPayment.Message,
                 Success = true
             };
-        }
         else
-        {
-            newOrderDb.Status = OrderStatusEnum.Canceled;
-            _orderRepository.Update(newOrderDb);
-            await _orderRepository.SaveChangesAsync();
-
             return new DefaultServiceResponseDto()
             {
-                Message = StaticNotifications.OrderSucessButPaymentUnauthorized.Message,
+                Message = StaticNotifications.OrderError.Message,
                 Success = true
             };
-        }
-    }
-
-    public async Task<PaymentsDto> RequestMockApiPaymentsAsync(Domain.Entities.Order orderDb) 
-    {
-        //TODO: implementar queue
-        return new PaymentsDto { OrderId = orderDb.Id, PaymentMethod = (PaymentMethodEnum)orderDb.PaymentMethod, CreatedAt = DateTime.Now, PaymentStatus = PaymentStatusEnum.WaitingPayment };
     }
 
     public List<OrderDetailsDto> GetUserOrders(OrderFilter filter, int idUser)
@@ -145,12 +121,6 @@ public class OrderService : BaseService, IOrderService
         return orderDetailsDto;
     }
 
-    public async Task<DefaultServiceResponseDto> ProcessPaymentsNotificationAsync(PaymentsDto paymentsDto)
-    {
-        //TODO
-        throw new NotImplementedException();
-    }
-
     public async Task<DefaultServiceResponseDto> CancelOrderByUserAsync(int userId, int orderId)
     {
         var orderDb = _orderRepository.Select().Where(db => db.Id.Equals(orderId))?.FirstOrDefault();
@@ -164,5 +134,29 @@ public class OrderService : BaseService, IOrderService
         await _orderRepository.SaveChangesAsync();
 
         return new DefaultServiceResponseDto() { Message = StaticNotifications.OrderCanceledSucess.Message, Success = true };
+    }
+
+    public async Task<DefaultServiceResponseDto> SendPaymentsToProcessQueueuAsync(PaymentsDto paymentsDto)
+    {
+        var nomeFila = _configuration.GetSection("MassTransit")["OrderMade"];
+        var endpoint = await _bus.GetSendEndpoint(new Uri($"queue:{nomeFila}"));
+
+        await endpoint.Send(paymentsDto);
+
+        return new DefaultServiceResponseDto() { Message = StaticNotifications.SendPaymentsToProcessQueueu.Message, Success = true };
+    }
+
+    public async Task ProcessPaymentsProcessedNotificationAsync(PaymentsDto paymentsDto)
+    {
+        var orderDb = _orderRepository.Select()
+            .AsQueryable()
+            .Where(db => db.Id.Equals(paymentsDto.OrderId))?.FirstOrDefault();
+
+        if (!orderDb.PaymentStatus.Equals(paymentsDto.PaymentStatus))
+        {
+            orderDb.PaymentStatus = paymentsDto.PaymentStatus;
+            _orderRepository.Update(orderDb);
+            await _orderRepository.SaveChangesAsync();
+        }
     }
 }

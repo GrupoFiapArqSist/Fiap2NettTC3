@@ -1,8 +1,10 @@
 using AutoMapper;
+using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Order.Api.ConsumerEvents.Payment;
 using Order.Api.Filters;
 using Order.Api.Mapper;
 using Order.Domain.Interfaces.Integration;
@@ -103,6 +105,34 @@ services.AddSwaggerGen(c =>
 					}
 				});
 });
+#endregion
+
+#region [MassTransit]
+var PaymentsProcessedQueue = builder.Configuration.GetSection("MassTransit")["PaymentsProcessedQueue"] ?? String.Empty;
+var Server = builder.Configuration.GetSection("MassTransit")["Server"];
+var User = builder.Configuration.GetSection("MassTransit")["User"];
+var Password = builder.Configuration.GetSection("MassTransit")["Password"];
+
+builder.Services.AddMassTransit((x =>
+{
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host(Server, "/", h =>
+        {
+            h.Username(User);
+            h.Password(Password);
+        });
+
+        cfg.ReceiveEndpoint(PaymentsProcessedQueue, e =>
+        {
+            e.Consumer<PaymentProcessedQueue>();
+        });
+
+        cfg.ConfigureEndpoints(context);
+    });
+
+    x.AddConsumer<PaymentProcessedQueue>();
+}));
 #endregion
 
 services.AddControllers(options =>
