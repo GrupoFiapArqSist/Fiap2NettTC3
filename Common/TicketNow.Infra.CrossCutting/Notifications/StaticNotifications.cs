@@ -34,6 +34,7 @@ public static class StaticNotifications
     #region [Order]
     public static Notification OrderSucess = new("OrderSucess", "Pedido efetuado com sucesso!");
     public static Notification OrderSucessWaitingPayment = new("OrderSucessWaitingPayment", "Pedido efetuado, aguardando pagamento.");
+    public static Notification OrderError = new("OrderSucessWaitingPayment", "Pedido com erro, por gentileza refaça o processo.");
     public static Notification OrderSucessButPaymentUnauthorized = new("OrderSucessButPaymentUnauthorized", "Pagamento não autorizado.");
     public static Notification PaymentsNotificationProcessSucess = new("PaymentsNotificationProcessSucess", "Notificação de pagamentos processada com sucesso!");
     public static Notification CancelOrderByUserOrderNotFound = new("CancelOrderByUserEventNotFound", "Pedido não encontrado.");
@@ -41,5 +42,7 @@ public static class StaticNotifications
     public static Notification CancelOrderByUserOrderAlreadyCanceled = new("CancelOrderByUserOrderAlreadyCanceled", "Pedido já cancelado.");
     public static Notification OrderCanceledSucess = new("OrderCanceledSucess", "Pedido cancelado com sucesso.");
     public static Notification OrderNotFound = new("OrderNotFound", "Nenhum pedido foi encontrado");
+    public static Notification SendPaymentsToProcessQueueu = new("SendPaymentsToProcessQueueu", "Pagamento em processamento.");
+
     #endregion
 }
