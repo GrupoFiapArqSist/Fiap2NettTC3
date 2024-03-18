@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Event.Domain.Interfaces.Integration;
 
-namespace Event.Domain.Interfaces.Integration
+public interface IOrderIntegration
 {
-    public interface IOrderIntegration
-    {
-        Task<bool> GetOrderActiveEvent(int eventId, string token);
-    }
+    Task<bool> ExistsOrderByEvent(int eventId, string token);
 }

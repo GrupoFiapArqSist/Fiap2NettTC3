@@ -5,12 +5,7 @@ using Event.Domain.Interfaces.Integration;
 using Event.Domain.Interfaces.Repositories;
 using Event.Domain.Interfaces.Services;
 using Event.Service.Validators.Event;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
 using System.Linq.Dynamic.Core;
-using System.Linq.Dynamic.Core.Tokenizer;
-using System.Net;
-using System.Net.Http;
 using TicketNow.Domain.Dtos.Default;
 using TicketNow.Domain.Extensions;
 using TicketNow.Infra.CrossCutting.Notifications;
@@ -156,7 +151,7 @@ public class EventService : BaseService, IEventService
     {
         var eventResult = await _eventRepository.SelectByIds(eventId, promoterId);
 
-        var orderConflict = await _orderIntegration.GetOrderActiveEvent(eventId, token);
+        var orderConflict = await _orderIntegration.ExistsOrderByEvent(eventId, token);
 
         if (orderConflict) { _notificationContext.AddNotification(StaticNotifications.EventDeletedConflict); return default; };
 

@@ -14,5 +14,5 @@ public interface IOrderService
     Task<DefaultServiceResponseDto> CancelOrderByUserAsync(int userId, int eventId);
     Task<DefaultServiceResponseDto> SendPaymentsToProcessQueueuAsync(PaymentsDto paymentsDto);
     Task ProcessPaymentsProcessedNotificationAsync(PaymentsDto paymentsDto);
-    DefaultServiceResponseDto GetOrderActiveOnEvent(int idEvent);
+    Task<bool> ExistsOrderByEvent(int idEvent);
 }

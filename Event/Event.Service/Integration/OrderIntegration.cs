@@ -1,39 +1,36 @@
 ﻿using Event.Domain.Interfaces.Integration;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Event.Service.Integration
+namespace Event.Service.Integration;
+
+public class OrderIntegration : IOrderIntegration
 {
-    public class OrderIntegration : IOrderIntegration
+    private readonly IConfiguration _configuration;
+
+    public OrderIntegration(IConfiguration configuration)
     {
-        private readonly IConfiguration _configuration;
+        _configuration = configuration;
+    }
 
-        public OrderIntegration(IConfiguration configuration)
+    public async Task<bool> ExistsOrderByEvent(int eventId, string token)
+    {
+        using (var httpClient = new HttpClient())
         {
-            _configuration = configuration;
-        }
+            var baseUrl = _configuration["Gateway:UrlBase"];
+            httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
-        public async Task<bool> GetOrderActiveEvent(int eventId, string token)
-        {
-            using (var httpClient = new HttpClient())
+            HttpResponseMessage response =
+                        await httpClient.GetAsync($"{baseUrl}/api/order/exists-order-by-event/{eventId}");
+
+            if (response.StatusCode == (HttpStatusCode)StatusCodes.Status200OK)
             {
-                var baseUrl = _configuration["Gateway:UrlBase"];
-                httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-
-                HttpResponseMessage response =
-                            await httpClient.GetAsync($"{baseUrl}/api/order/get-order-active-event/{eventId}");
-
-                if (response.StatusCode != (HttpStatusCode)StatusCodes.Status404NotFound)
-                    return true;
-                else
-                    return false;
+                var result = await response.Content.ReadAsStringAsync();
+                return Convert.ToBoolean(result);
             }
+
+            return true;
         }
     }
 }
