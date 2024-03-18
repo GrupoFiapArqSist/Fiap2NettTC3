@@ -161,16 +161,10 @@ public class OrderService : BaseService, IOrderService
         }
     }
 
-    public DefaultServiceResponseDto GetOrderActiveOnEvent(int idEvent)
+    public async Task<bool> ExistsOrderByEvent(int eventId)
     {
-        var orderDb = _orderRepository.Select()
-            .AsQueryable()
-            .Where(db => db.Id.Equals(idEvent) && db.Status.Equals(OrderStatusEnum.Active));
-
-        if(orderDb is not null && orderDb.Any())
-            return new DefaultServiceResponseDto() { Message = StaticNotifications.EventContainsOrderActive.Message, Success = true };
-        else
-            return new DefaultServiceResponseDto() { Message = StaticNotifications.EventDontContainsOrderActive.Message, Success = true };
+        return await Task.FromResult(_orderRepository.Select()
+                     .Any(db => db.EventId == eventId && db.Status == OrderStatusEnum.Active));
     }
 
 }

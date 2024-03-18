@@ -147,7 +147,8 @@ public class EventController : Controller
     [SwaggerResponse((int)HttpStatusCode.Unauthorized)]
     public async Task<IActionResult> DeleteEvent(int id)
     {
-        var deleteResult = await _eventService.DeleteEvent(id, this.GetUserIdLogged());
+        var token = this.GetAccessToken();
+        var deleteResult = await _eventService.DeleteEvent(id, this.GetUserIdLogged(), token);
         return Ok(deleteResult);
     }
 

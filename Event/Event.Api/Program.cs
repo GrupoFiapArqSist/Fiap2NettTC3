@@ -1,10 +1,12 @@
 using AutoMapper;
 using Event.Api.Filters;
 using Event.Api.Mapper;
+using Event.Domain.Interfaces.Integration;
 using Event.Domain.Interfaces.Repositories;
 using Event.Domain.Interfaces.Services;
 using Event.Infra.Data.Context;
 using Event.Infra.Data.Repositories;
+using Event.Service.Integration;
 using Event.Service.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -60,6 +62,8 @@ services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 services.AddScoped<NotificationContext>();
 services.AddScoped<IBaseService, BaseService>();
 services.AddScoped<IEventService, EventService>();
+
+services.AddScoped<IOrderIntegration, OrderIntegration>();
 
 services.AddScoped<IEventRepository, EventRepository>();
 #endregion

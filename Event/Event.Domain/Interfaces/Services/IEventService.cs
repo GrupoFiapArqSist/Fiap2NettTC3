@@ -7,7 +7,7 @@ namespace Event.Domain.Interfaces.Services;
 public interface IEventService
 {
     Task<DefaultServiceResponseDto> AddEventAsync(AddEventDto addEventDto, int promoterId);
-    Task<DefaultServiceResponseDto> DeleteEvent(int eventId, int promoterId);
+    Task<DefaultServiceResponseDto> DeleteEvent(int eventId, int promoterId, string token);
     ICollection<EventDto> GetAllEvents(EventFilter filter, bool approved);
     ICollection<EventDto> GetAllEventsByPromoter(EventFilter filter, int promoterId);
     EventDto GetEvent(int eventId);

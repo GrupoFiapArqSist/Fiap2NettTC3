@@ -3,31 +3,31 @@ using System.Net;
 using System.Text.Json;
 using TicketNow.Infra.CrossCutting.Notifications;
 
-namespace Event.Api.Filters
+namespace Event.Api.Filters;
+
+public class NotificationFilter : IAsyncResultFilter
 {
-    public class NotificationFilter : IAsyncResultFilter
+    private readonly NotificationContext _notificationContext;
+
+    public NotificationFilter(NotificationContext notificationContext)
     {
-        private readonly NotificationContext _notificationContext;
+        _notificationContext = notificationContext;
+    }
 
-        public NotificationFilter(NotificationContext notificationContext)
+    public async Task OnResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next)
+    {
+        if (_notificationContext.HasNotifications)
         {
-            _notificationContext = notificationContext;
+            context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+            context.HttpContext.Response.ContentType = "application/json";
+
+            var notifications = JsonSerializer.Serialize(_notificationContext.Notifications);
+            await context.HttpContext.Response.WriteAsync(notifications);
+
+            return;
         }
 
-        public async Task OnResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next)
-        {
-            if (_notificationContext.HasNotifications)
-            {
-                context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                context.HttpContext.Response.ContentType = "application/json";
-
-                var notifications = JsonSerializer.Serialize(_notificationContext.Notifications);
-                await context.HttpContext.Response.WriteAsync(notifications);
-
-                return;
-            }
-
-            await next();
-        }
+        await next();
     }
 }
+
