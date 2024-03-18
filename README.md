@@ -38,7 +38,7 @@ O Gateway foi implementado utilizando Ocelot para permitir o acesso aos endpoint
 
 ## Comunicação entre Microsserviços
 
-##Queue
+## Queue
 
 Implementamos uma fila com RabbitMQ para permitir a comunicação assíncrona entre os microsserviços. (detalhar mais)
 
@@ -46,7 +46,7 @@ Além da fila de mensagens, os serviços também se comunicam através dos endpo
 
 ## Detalhes dos Microserviços
 
-##Costumer 
+## Costumer 
 
 Microsserviço responsável pelo gerenciamento dos clientes.
 
@@ -55,7 +55,7 @@ Endpoints
 ![image](https://github.com/GrupoFiapArqSist/Fiap2NettTC3/assets/143532676/9bd5f6bb-309b-4516-8a61-c41c36385ffc)
 ![image](https://github.com/GrupoFiapArqSist/Fiap2NettTC3/assets/143532676/87189840-26fe-4a66-ac0e-f2875e505905)
 
-##Event
+## Event
 
 Microsserviço responsável pelo gerenciamento dos eventos.
 
@@ -63,7 +63,7 @@ Endpoints
 
 ![image](https://github.com/GrupoFiapArqSist/Fiap2NettTC3/assets/143532676/5b1be442-deb0-4ead-b985-71c55e9a68f2)
 
-##Order
+## Order
 
 Microsserviço responsável pelo gerenciamento dos pedidos de ingressos.
 
@@ -71,7 +71,7 @@ Endpoints
 
 ![image](https://github.com/GrupoFiapArqSist/Fiap2NettTC3/assets/143532676/d8beacd2-6d44-48b1-9700-b75ab73e995a)
 
-##Payment
+## Payment
 
 (inserir payment)
 
