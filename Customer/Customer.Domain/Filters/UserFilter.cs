@@ -1,4 +1,6 @@
-﻿namespace Customer.Domain.Filters;
+﻿using TicketNow.Domain.Filters;
+
+namespace Customer.Domain.Filters;
 
 public class UserFilter : _BaseFilter
 {

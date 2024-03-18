@@ -1,6 +1,7 @@
 ﻿using Customer.Domain.Entities;
-using Customer.Domain.Utilities;
 using Customer.Infra.Data.Context;
+using TicketNow.Domain.Entities;
+using TicketNow.Domain.Utilities;
 
 namespace Customer.Infra.Data.Seeds._SeedHistory;
 

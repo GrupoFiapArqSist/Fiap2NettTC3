@@ -22,6 +22,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\..\Common\TicketNow.Infra.CrossCutting\TicketNow.Infra.CrossCutting.csproj" />
 		<ProjectReference Include="..\Event.Infra.CrossCutting\Event.Infra.CrossCutting.csproj" />
 		<ProjectReference Include="..\Event.Infra.Data\Event.Infra.Data.csproj" />
 		<ProjectReference Include="..\Event.Service\Event.Service.csproj" />

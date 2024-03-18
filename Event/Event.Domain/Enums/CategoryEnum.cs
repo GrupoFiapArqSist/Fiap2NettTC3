@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel;
 
-namespace Event.Domain.Enums
+namespace Event.Domain.Enums;
+
+public enum CategoryEnum
 {
-    public enum CategoryEnum
-    {
-        [Description("Festa")]
-        Party = 1
-    }
+    [Description("Festa")]
+    Party = 1
 }
