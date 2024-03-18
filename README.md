@@ -44,7 +44,7 @@ Implementamos uma fila com RabbitMQ para permitir a comunicação assíncrona en
 
 Além da fila de mensagens, os serviços também se comunicam através dos endpoints e do gateway para acessar informações de outros microsserviços. Isso permite realizar validações e obter dados necessários para aplicar a lógica de negócio de forma distribuída, ele pode fazer uma requisição HTTP para o endpoint correspondente no microsserviço alvo, utilizando o gateway como intermediário.
 
-* Detalhes dos Microserviços
+* Detalhes dos Microserviços:
 
 ## Costumer 
 
