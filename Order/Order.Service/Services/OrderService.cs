@@ -161,11 +161,11 @@ public class OrderService : BaseService, IOrderService
         }
     }
 
-    public DefaultServiceResponseDto GetOrderActiveOnEvent(int idEvent)
+    public DefaultServiceResponseDto GetOrderActiveOnEvent(int id)
     {
         var orderDb = _orderRepository.Select()
             .AsQueryable()
-            .Where(db => db.Id.Equals(idEvent) && db.Status.Equals(OrderStatusEnum.Active));
+            .Where(db => db.EventId.Equals(id) && db.Status.Equals(OrderStatusEnum.Active));
 
         if(orderDb is not null && orderDb.Any())
             return new DefaultServiceResponseDto() { Message = StaticNotifications.EventContainsOrderActive.Message, Success = true };

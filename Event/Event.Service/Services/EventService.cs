@@ -1,10 +1,16 @@
 ﻿using AutoMapper;
 using Event.Domain.Dtos.Event;
 using Event.Domain.Filters;
+using Event.Domain.Interfaces.Integration;
 using Event.Domain.Interfaces.Repositories;
 using Event.Domain.Interfaces.Services;
 using Event.Service.Validators.Event;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using System.Linq.Dynamic.Core;
+using System.Linq.Dynamic.Core.Tokenizer;
+using System.Net;
+using System.Net.Http;
 using TicketNow.Domain.Dtos.Default;
 using TicketNow.Domain.Extensions;
 using TicketNow.Infra.CrossCutting.Notifications;
@@ -16,13 +22,14 @@ public class EventService : BaseService, IEventService
 {
     private readonly IEventRepository _eventRepository;
     private readonly IMapper _mapper;
+    private readonly IOrderIntegration _orderIntegration;
     private readonly NotificationContext _notificationContext;
-
-    public EventService(IEventRepository eventRepository, IMapper mapper, NotificationContext notificationContext)
+    public EventService(IEventRepository eventRepository, IMapper mapper, NotificationContext notificationContext, IOrderIntegration orderIntegration)
     {
         _eventRepository = eventRepository;
         _mapper = mapper;
         _notificationContext = notificationContext;
+        _orderIntegration = orderIntegration;
     }
 
     public async Task<DefaultServiceResponseDto> AddEventAsync(AddEventDto addEventDto, int promoterId)
@@ -145,16 +152,13 @@ public class EventService : BaseService, IEventService
         };
     }
 
-    public async Task<DefaultServiceResponseDto> DeleteEvent(int eventId, int promoterId)
+    public async Task<DefaultServiceResponseDto> DeleteEvent(int eventId, int promoterId, string token)
     {
         var eventResult = await _eventRepository.SelectByIds(eventId, promoterId);
 
-        //var orderResult = _orderRepository
-        //    .Select()
-        //    .Where(r => r.EventId == eventId && r.UserId == promoterId)
-        //    .FirstOrDefault();
+        var orderConflict = await _orderIntegration.GetOrderActiveEvent(eventId, token);
 
-        //if (orderResult is not null) { _notificationContext.AddNotification(StaticNotifications.EventDeletedConflict); return default; };
+        if (orderConflict) { _notificationContext.AddNotification(StaticNotifications.EventDeletedConflict); return default; };
 
         if (eventResult is null) { _notificationContext.AddNotification(StaticNotifications.EventNotFound); return default; };
 
