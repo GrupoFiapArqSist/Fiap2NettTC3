@@ -1,3 +1,4 @@
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -18,7 +19,31 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("local"));
 });
 #endregion
-builder.Services.AddHostedService<Engine>();
+//builder.Services.AddHostedService<Engine>();
+#region [MassTransit]
+var PaymentToProcessQueue = builder.Configuration.GetSection("Queues:PaymentToProcess").Get<string>();
+var Server = builder.Configuration.GetSection("MassTransit:Server").Get<string>();
+var User = builder.Configuration.GetSection("MassTransit:User").Get<string>();
+var Password = builder.Configuration.GetSection("MassTransit:Password").Get<string>();
+
+builder.Services.AddMassTransit(x =>
+{
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host(Server, "/", h =>
+        {
+            h.Username(User);
+            h.Password(Password);
+        });
+        cfg.ReceiveEndpoint(PaymentToProcessQueue, e =>
+        {
+            e.ConfigureConsumer<PaymentConsumer>(context);
+        });
+        cfg.ConfigureEndpoints(context);
+    });
+    x.AddConsumer<PaymentConsumer>();
+});
+#endregion
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -40,6 +65,7 @@ app.UseHttpsRedirection();
 app.Run();
 
 #region [Endpoints]
+/*
 app.MapGet("/Aplication", async (ApplicationDbContext dbContext, HttpRequest request) =>
 {
     var apiKey = request.Headers["API-KEY"];
@@ -88,6 +114,7 @@ app.MapPut("/Application", async (ApplicationDbContext dbContext, UpdateApplicat
     await dbContext.SaveChangesAsync();
     return Results.Ok(application);
 });
+*/
 app.MapPost("/Payment", async (ApplicationDbContext dbContext, HttpRequest request, CreatePaymentDto paymentDto) =>
 {
     var apiKey = request.Headers["API-KEY"];
