@@ -89,4 +89,14 @@ public class OrderController : Controller
     {
         await _orderService.ProcessPaymentsProcessedNotificationAsync(paymentsDto);
     }
+
+    [HttpGet("get-order-active-event")]
+    [SwaggerOperation(Summary = "Verify order active on event")]
+    [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(DefaultServiceResponseDto))]
+    [SwaggerResponse((int)HttpStatusCode.BadRequest, Type = typeof(IReadOnlyCollection<dynamic>))]
+    [SwaggerResponse((int)HttpStatusCode.InternalServerError)]
+    public IActionResult GetOrderActiveOnEvent(int idEvent)
+    {
+        return Ok(_orderService.GetOrderActiveOnEvent(idEvent));
+    }
 }

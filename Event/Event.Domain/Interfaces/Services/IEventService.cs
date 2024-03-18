@@ -14,4 +14,5 @@ public interface IEventService
     Task<DefaultServiceResponseDto> SetState(int eventId, bool active, int promoterId);
     Task<DefaultServiceResponseDto> UpdateEventAsync(UpdateEventDto updateEventDto, int promoterId);
     Task<DefaultServiceResponseDto> Approve(int eventId);
+    DefaultServiceResponseDto GetEventActive(int eventId);
 }

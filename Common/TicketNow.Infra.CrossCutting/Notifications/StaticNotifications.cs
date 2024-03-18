@@ -29,6 +29,9 @@ public static class StaticNotifications
     public static Notification EventDeleted = new Notification("EventDeleted", "Evento deletado com sucesso!");
     public static Notification EventDeletedConflict = new Notification("EventDeletedConflict", "Evento está ligado à um pedido, erro ao deletar");
     public static Notification EventApproved = new Notification("EventApproved", "Evento aprovado com sucesso");
+    public static Notification EventContainsOrderActive = new Notification("EventContainsOrderActive", "Evento contêm pedidos ativos.");
+    public static Notification EventDontContainsOrderActive = new Notification("EventDontContainsOrderActive", "Evento não contêm pedidos ativos.");
+
     #endregion
 
     #region [Order]
