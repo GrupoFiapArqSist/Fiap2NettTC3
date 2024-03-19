@@ -1,6 +1,6 @@
 ﻿using MassTransit;
 using Microsoft.Extensions.Configuration;
-using Order.Domain.Dtos.MockPayment;
+using Order.Domain.Dtos.Payment;
 using System.Diagnostics;
 using System.Text.Json;
 namespace Order.Service.ConsumerEvents.Payments

@@ -55,7 +55,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI(x => x.SwaggerEndpoint("/swagger/v1/swagger.json", "Mock Payment Api"));
+    app.UseSwaggerUI(x => x.SwaggerEndpoint("/swagger/v1/swagger.json", "Payment Api"));
 }
 
 #region [Migrations and Seeds]

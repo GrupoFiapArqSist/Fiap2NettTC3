@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Order.Domain.Dtos.Event;
-using Order.Domain.Dtos.MockPayment;
+using Order.Domain.Dtos.Payment;
 using Order.Domain.Dtos.Order;
 using Order.Domain.Filters;
 using Order.Domain.Interfaces.Services;

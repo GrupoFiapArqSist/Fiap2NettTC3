@@ -1,5 +1,5 @@
 ﻿using Order.Domain.Dtos.Event;
-using Order.Domain.Dtos.MockPayment;
+using Order.Domain.Dtos.Payment;
 using Order.Domain.Dtos.Order;
 using Order.Domain.Filters;
 using TicketNow.Domain.Dtos.Default;

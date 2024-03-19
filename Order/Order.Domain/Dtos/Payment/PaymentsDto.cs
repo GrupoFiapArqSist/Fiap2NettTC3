@@ -1,6 +1,6 @@
 ﻿using Order.Domain.Enums;
 
-namespace Order.Domain.Dtos.MockPayment;
+namespace Order.Domain.Dtos.Payment;
 
 public class PaymentsDto
 {
