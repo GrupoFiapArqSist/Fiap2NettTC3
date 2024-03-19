@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Payment.Domain.DTOs;
 using Payment.Infra.Data.Context;
+using Payment.Service.ConsumersEvent.Payments;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,30 +24,26 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 #endregion
 
 #region [MassTransit]
-var OrderMadeQueue = builder.Configuration.GetSection("MassTransit:OrderMadeQueue").Get<string>();
-var Server = builder.Configuration.GetSection("MassTransit:Server").Get<string>();
-var User = builder.Configuration.GetSection("MassTransit:User").Get<string>();
-var Password = builder.Configuration.GetSection("MassTransit:Password").Get<string>();
+var server = builder.Configuration.GetSection("MassTransit:Server").Get<string>();
+var user = builder.Configuration.GetSection("MassTransit:User").Get<string>();
+var password = builder.Configuration.GetSection("MassTransit:Password").Get<string>();
 
-builder.Services.AddMassTransit(x =>
+builder.Services.AddMassTransit((x =>
 {
     x.UsingRabbitMq((context, cfg) =>
     {
-        cfg.Host(Server, "/", h =>
+        cfg.Host(server, "/", h =>
         {
-            h.Username(User);
-            h.Password(Password);
-        });
+            h.Username(user);
+            h.Password(password);
+        });        
 
-        cfg.ReceiveEndpoint(OrderMadeQueue, e =>
-        {
-            e.Consumer<PaymentConsumer>();
-        });
         cfg.ConfigureEndpoints(context);
     });
 
-    x.AddConsumer<PaymentConsumer>();
-});
+    x.AddConsumer<OrderMadeConsumer>(typeof(OrderMadeConsumerDefinition));
+
+}));
 #endregion
 
 var app = builder.Build();
@@ -79,8 +76,8 @@ app.MapPost("/payment/processed", async (ApplicationDbContext _dbContext, HttpRe
 
     await _dbContext.SaveChangesAsync();
 
-    var nomeFila = configuration.GetSection("MassTransit")["PaymentsProcessedQueue"];
-    var endpoint = await _iBus.GetSendEndpoint(new Uri($"queue:{nomeFila}"));
+    var queueName = configuration.GetSection("MassTransit")["PaymentProcessedQueue"];
+    var endpoint = await _iBus.GetSendEndpoint(new Uri($"queue:{queueName}"));
 
     await endpoint.Send(_paymentDto);
 

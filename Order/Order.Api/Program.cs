@@ -119,7 +119,6 @@ services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
 
 #region [MassTransit]
-var PaymentsProcessedQueue = builder.Configuration.GetSection("MassTransit")["PaymentsProcessed"] ?? String.Empty;
 var Server = builder.Configuration.GetSection("MassTransit")["Server"];
 var User = builder.Configuration.GetSection("MassTransit")["User"];
 var Password = builder.Configuration.GetSection("MassTransit")["Password"];
@@ -134,15 +133,11 @@ builder.Services.AddMassTransit((x =>
             h.Password(Password);
         });
 
-        cfg.ReceiveEndpoint(PaymentsProcessedQueue, e =>
-        {
-            e.Consumer<PaymentProcessedConsumer>();
-        });
-
+        cfg.UseDelayedMessageScheduler();
         cfg.ConfigureEndpoints(context);
     });
 
-    x.AddConsumer<PaymentProcessedConsumer>();
+    x.AddConsumer<PaymentProcessedConsumer>(typeof(PaymentProcessedConsumerDefinition));
 }));
 
 #endregion
