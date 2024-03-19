@@ -75,6 +75,13 @@ Endpoints
 
 ![image](https://github.com/GrupoFiapArqSist/Fiap2NettTC3/assets/143532676/5b1be442-deb0-4ead-b985-71c55e9a68f2)
 
+* Fluxo
+  * O usuário promoter cria o evento e fica como pendente.
+  * O usuário admin precisa ativar esse evento.
+  * Promoter pode visualizar, alterar, desabilitar, habilitar e excluir seus eventos, para excluir é necessário que não haja order ligada a aquele evento.
+  * Admin tem acesso a todos eventos que estão como pendente.
+  * O usuário costumer pode acessar a lista de todos eventos ativos e habilitados na plataforma.
+
 ## Order
 
 Microsserviço responsável pelo gerenciamento dos pedidos de ingressos, consumo e envio de eventos a fila.
