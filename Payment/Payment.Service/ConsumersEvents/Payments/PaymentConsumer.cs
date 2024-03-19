@@ -1,5 +1,6 @@
 ﻿using MassTransit;
 using Microsoft.Extensions.Configuration;
+using Payment.Domain.DTOs;
 using System.Diagnostics;
 using System.Text.Json;
 

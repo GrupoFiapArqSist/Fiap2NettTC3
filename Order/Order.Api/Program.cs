@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Order.Api.ConsumerEvents.Payment;
 using Order.Api.Filters;
 using Order.Api.Mapper;
 using Order.Domain.Interfaces.Integration;
@@ -12,6 +11,7 @@ using Order.Domain.Interfaces.Repositories;
 using Order.Domain.Interfaces.Services;
 using Order.Infra.Data.Context;
 using Order.Infra.Data.Repositories;
+using Order.Service.ConsumerEvents.Payments;
 using Order.Service.Integration;
 using Order.Service.Services;
 using System.Text;
@@ -107,8 +107,19 @@ services.AddSwaggerGen(c =>
 });
 #endregion
 
+services.AddControllers(options =>
+{
+	options.Filters.Add<NotificationFilter>();
+}).AddJsonOptions(options =>
+{
+	options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+});
+
+services.AddEndpointsApiExplorer();
+services.AddSwaggerGen();
+
 #region [MassTransit]
-var PaymentsProcessedQueue = builder.Configuration.GetSection("MassTransit")["PaymentsProcessedQueue"] ?? String.Empty;
+var PaymentsProcessedQueue = builder.Configuration.GetSection("MassTransit")["PaymentsProcessed"] ?? String.Empty;
 var Server = builder.Configuration.GetSection("MassTransit")["Server"];
 var User = builder.Configuration.GetSection("MassTransit")["User"];
 var Password = builder.Configuration.GetSection("MassTransit")["Password"];
@@ -125,26 +136,16 @@ builder.Services.AddMassTransit((x =>
 
         cfg.ReceiveEndpoint(PaymentsProcessedQueue, e =>
         {
-            e.Consumer<PaymentProcessedQueue>();
+            e.Consumer<PaymentProcessedConsumer>();
         });
 
         cfg.ConfigureEndpoints(context);
     });
 
-    x.AddConsumer<PaymentProcessedQueue>();
+    x.AddConsumer<PaymentProcessedConsumer>();
 }));
+
 #endregion
-
-services.AddControllers(options =>
-{
-	options.Filters.Add<NotificationFilter>();
-}).AddJsonOptions(options =>
-{
-	options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-});
-
-services.AddEndpointsApiExplorer();
-services.AddSwaggerGen();
 
 var app = builder.Build();
 

@@ -1,6 +1,7 @@
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Payment.Domain.DTOs;
 using Payment.Infra.Data.Context;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -67,8 +68,6 @@ using (var scope = app.Services.CreateScope())
 
 app.UseHttpsRedirection();
 
-app.Run();
-
 #region [Endpoints]
 
 app.MapPost("/payment/processed", async (ApplicationDbContext _dbContext, HttpRequest _request, PaymentsDto _paymentDto,
@@ -89,3 +88,5 @@ app.MapPost("/payment/processed", async (ApplicationDbContext _dbContext, HttpRe
 });
 
 #endregion
+
+app.Run();
