@@ -165,8 +165,7 @@ public class EventController : Controller
         return Ok(approveResult);
     }
 
-    [HttpPut("get-event-active-inative/{id}")]
-    [Authorize(Roles = StaticUserRoles.ADMIN)]
+    [HttpGet("get-event-active-inative/{id}")]
     [SwaggerOperation(Summary = "Get event active or inative")]
     [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(DefaultServiceResponseDto))]
     [SwaggerResponse((int)HttpStatusCode.BadRequest, Type = typeof(IReadOnlyCollection<Notification>))]
