@@ -1,7 +1,7 @@
-﻿using Customer.Domain.Dtos.Default;
-using Customer.Domain.Dtos.User;
+﻿using Customer.Domain.Dtos.User;
 using Customer.Domain.Filters;
 using Microsoft.AspNetCore.Http;
+using TicketNow.Domain.Dtos.Default;
 
 namespace Customer.Domain.Interfaces.Services;
 

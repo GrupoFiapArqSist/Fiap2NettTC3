@@ -1,11 +1,11 @@
-﻿using Customer.Domain.Dtos.Default;
-using Customer.Domain.Dtos.User;
+﻿using Customer.Domain.Dtos.User;
 using Customer.Domain.Interfaces.Services;
-using Customer.Domain.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
+using TicketNow.Domain.Dtos.Default;
+using TicketNow.Domain.Utilities;
 
 namespace Customer.Api.Controllers;
 
@@ -49,6 +49,7 @@ public class AdminController : Controller
         var response = await _userService.ApproveAsync(id);
         return Ok(response);
     }
+
     [HttpDelete("{id}")]
     [Authorize(Roles = StaticUserRoles.ADMIN)]
     [SwaggerOperation(Summary = "Delete user")]

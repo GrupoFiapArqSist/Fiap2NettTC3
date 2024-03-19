@@ -1,9 +1,9 @@
-﻿using Customer.Domain.Entities;
-using Customer.Domain.Interfaces.Services;
-using Customer.Domain.Utilities;
+﻿using Customer.Domain.Interfaces.Services;
 using Customer.Domain.Dtos.Auth;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using TicketNow.Domain.Entities;
+using TicketNow.Domain.Utilities;
 
 namespace Customer.Infra.Data.Seeds._SeedHistory;
 

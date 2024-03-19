@@ -1,14 +1,14 @@
-﻿using Event.Domain.Dtos.Default;
-using Event.Domain.Dtos.Event;
-using Event.Domain.Extensions;
+﻿using Event.Domain.Dtos.Event;
 using Event.Domain.Filters;
 using Event.Domain.Interfaces.Services;
-using Event.Domain.Utilities;
-using Event.Infra.CrossCutting.Notifications;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
+using TicketNow.Domain.Dtos.Default;
+using TicketNow.Infra.CrossCutting.Notifications;
+using TicketNow.Domain.Extensions;
+using TicketNow.Domain.Utilities;
 
 namespace Event.Api.Controllers;
 
@@ -147,7 +147,8 @@ public class EventController : Controller
     [SwaggerResponse((int)HttpStatusCode.Unauthorized)]
     public async Task<IActionResult> DeleteEvent(int id)
     {
-        var deleteResult = await _eventService.DeleteEvent(id, this.GetUserIdLogged());
+        var token = this.GetAccessToken();
+        var deleteResult = await _eventService.DeleteEvent(id, this.GetUserIdLogged(), token);
         return Ok(deleteResult);
     }
 
@@ -162,6 +163,18 @@ public class EventController : Controller
     {
         var approveResult = await _eventService.Approve(id);
         return Ok(approveResult);
+    }
+
+    [HttpPut("get-event-active-inative/{id}")]
+    [Authorize(Roles = StaticUserRoles.ADMIN)]
+    [SwaggerOperation(Summary = "Get event active or inative")]
+    [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(DefaultServiceResponseDto))]
+    [SwaggerResponse((int)HttpStatusCode.BadRequest, Type = typeof(IReadOnlyCollection<Notification>))]
+    [SwaggerResponse((int)HttpStatusCode.InternalServerError)]
+    [SwaggerResponse((int)HttpStatusCode.Unauthorized)]
+    public IActionResult GetEventActiveOrInative(int id)
+    {
+        return Ok(_eventService.GetEventActive(id));
     }
 }
 

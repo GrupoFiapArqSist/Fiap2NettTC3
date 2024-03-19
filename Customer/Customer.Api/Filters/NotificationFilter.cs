@@ -1,7 +1,7 @@
-﻿using Customer.Infra.CrossCutting.Notifications;
-using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Microsoft.AspNetCore.Mvc.Filters;
 using System.Net;
 using System.Text.Json;
+using TicketNow.Infra.CrossCutting.Notifications;
 
 namespace Customer.Api.Filters
 {

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -29,6 +29,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\TicketNow.Domain\TicketNow.Domain.csproj" />
+    <ProjectReference Include="..\..\Common\TicketNow.Infra.Data\TicketNow.Infra.Data.csproj" />
     <ProjectReference Include="..\Customer.Domain\Customer.Domain.csproj" />
     <ProjectReference Include="..\Customer.Service\Customer.Service.csproj" />
   </ItemGroup>

@@ -1,4 +1,5 @@
-﻿using Customer.Service.Services.Business;
+﻿using TicketNow.Service.Business;
+using TicketNow.Infra.Data.Context;
 
 namespace Customer.Infra.Data.Context;
 
