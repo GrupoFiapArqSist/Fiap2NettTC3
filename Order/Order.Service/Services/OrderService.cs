@@ -70,6 +70,7 @@ public class OrderService : BaseService, IOrderService
         orderDb.Status = OrderStatusEnum.Active;
         orderDb.PaymentStatus = PaymentStatusEnum.WaitingPayment;
         orderDb.Price = evento.TicketPrice * newOrderDto.Tickets;
+        orderDb.TicketPrice = evento.TicketPrice;
 
         var newOrderDb = await _orderRepository.InsertWithReturnId(orderDb);
 
