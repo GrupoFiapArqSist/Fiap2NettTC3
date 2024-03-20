@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Order.Domain.Enums;
+namespace TicketNow.Domain.Enums;
 
 public enum PaymentStatusEnum
 {

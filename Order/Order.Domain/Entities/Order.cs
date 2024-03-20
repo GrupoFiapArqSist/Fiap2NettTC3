@@ -1,5 +1,6 @@
 ﻿using Order.Domain.Enums;
 using TicketNow.Domain.Entities;
+using TicketNow.Domain.Enums;
 using TicketNow.Domain.Interfaces.Entities;
 
 namespace Order.Domain.Entities;

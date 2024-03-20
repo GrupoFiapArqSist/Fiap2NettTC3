@@ -2,13 +2,13 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Order.Domain.Dtos.Event;
-using Order.Domain.Dtos.Payment;
 using Order.Domain.Dtos.Order;
 using Order.Domain.Filters;
 using Order.Domain.Interfaces.Services;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
 using TicketNow.Domain.Dtos.Default;
+using TicketNow.Domain.Dtos.Payment;
 using TicketNow.Domain.Extensions;
 using TicketNow.Infra.CrossCutting.Notifications;
 
@@ -81,13 +81,12 @@ public class OrderController : Controller
 		return Ok(await _orderService.CancelOrderByUserAsync(this.GetUserIdLogged(), id));
 	}
 
-    [HttpPost]
-    [AllowAnonymous]
-    [Route("/payments/process")]
+    [HttpPost("payment/process")]
+    [AllowAnonymous]    
     [ApiExplorerSettings(IgnoreApi = true)]
-    public async Task ReceivePaymentsProcessedNotification([FromBody] PaymentsDto paymentsDto)
+    public async Task ReceivePaymentProcessedNotification([FromBody] ProcessedPaymentDto processedPaymentDto)
     {
-        await _orderService.ProcessPaymentsProcessedNotificationAsync(paymentsDto);
+        await _orderService.ProcessPaymentProcessedNotificationAsync(processedPaymentDto);
     }
 
     [HttpGet("exists-order-by-event/{eventId}")]

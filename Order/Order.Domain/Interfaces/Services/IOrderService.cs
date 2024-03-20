@@ -1,8 +1,8 @@
 ﻿using Order.Domain.Dtos.Event;
-using Order.Domain.Dtos.Payment;
 using Order.Domain.Dtos.Order;
 using Order.Domain.Filters;
 using TicketNow.Domain.Dtos.Default;
+using TicketNow.Domain.Dtos.Payment;
 
 namespace Order.Domain.Interfaces.Services;
 
@@ -12,7 +12,7 @@ public interface IOrderService
     List<OrderDetailsDto> GetUserOrders(OrderFilter filter, int idUser);
     OrderDetailsDto GetOrderDetails(int idOrder, int idUser);
     Task<DefaultServiceResponseDto> CancelOrderByUserAsync(int userId, int eventId);
-    Task<DefaultServiceResponseDto> SendPaymentsToProcessQueueuAsync(PaymentsDto paymentsDto);
-    Task ProcessPaymentsProcessedNotificationAsync(PaymentsDto paymentsDto);
+    Task<DefaultServiceResponseDto> SendPaymentsToProcessQueueAsync(PaymentsDto paymentsDto);
+    Task ProcessPaymentProcessedNotificationAsync(ProcessedPaymentDto processedPaymentDto);
     Task<bool> ExistsOrderByEvent(int idEvent);
 }
