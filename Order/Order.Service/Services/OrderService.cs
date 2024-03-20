@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 using Order.Domain.Dtos.Event;
-using Order.Domain.Dtos.MockPayment;
 using Order.Domain.Dtos.Order;
 using Order.Domain.Enums;
 using Order.Domain.Filters;
@@ -14,6 +12,8 @@ using Order.Service.Validators.Event;
 using Order.Service.Validators.Order;
 using System.Linq.Dynamic.Core;
 using TicketNow.Domain.Dtos.Default;
+using TicketNow.Domain.Dtos.Payment;
+using TicketNow.Domain.Enums;
 using TicketNow.Domain.Extensions;
 using TicketNow.Infra.CrossCutting.Notifications;
 using TicketNow.Service.Services;
@@ -79,7 +79,7 @@ public class OrderService : BaseService, IOrderService
             _orderItemRepository.Insert(_mapper.Map<Domain.Entities.OrderItem>(itemOrderDto));
         };
 
-        await SendPaymentsToProcessQueueuAsync(new PaymentsDto() { OrderId = newOrderDb.Id, PaymentStatus = newOrderDb.PaymentStatus, PaymentMethod = OrderDetailsDto.ReturnPaymentMethodEnum(newOrderDb.PaymentMethod) });
+        await SendPaymentsToProcessQueueAsync(new PaymentsDto() { OrderId = newOrderDb.Id, PaymentStatus = newOrderDb.PaymentStatus, PaymentMethod = OrderDetailsDto.ReturnPaymentMethodEnum(newOrderDb.PaymentMethod) });
 
         if (newOrderDb.Id > 0)
             return new DefaultServiceResponseDto()
@@ -137,9 +137,9 @@ public class OrderService : BaseService, IOrderService
         return new DefaultServiceResponseDto() { Message = StaticNotifications.OrderCanceledSucess.Message, Success = true };
     }
 
-    public async Task<DefaultServiceResponseDto> SendPaymentsToProcessQueueuAsync(PaymentsDto paymentsDto)
+    public async Task<DefaultServiceResponseDto> SendPaymentsToProcessQueueAsync(PaymentsDto paymentsDto)
     {
-        var nomeFila = _configuration.GetSection("MassTransit")["OrderMade"];
+        var nomeFila = _configuration.GetSection("MassTransit")["OrderProcessedQueue"];
         var endpoint = await _bus.GetSendEndpoint(new Uri($"queue:{nomeFila}"));
 
         await endpoint.Send(paymentsDto);
@@ -147,15 +147,19 @@ public class OrderService : BaseService, IOrderService
         return new DefaultServiceResponseDto() { Message = StaticNotifications.SendPaymentsToProcessQueueu.Message, Success = true };
     }
 
-    public async Task ProcessPaymentsProcessedNotificationAsync(PaymentsDto paymentsDto)
+    public async Task ProcessPaymentProcessedNotificationAsync(ProcessedPaymentDto processedPaymentDto)
     {
+        var orderId = Convert.ToInt32(processedPaymentDto.OrderId.Decrypt(_configuration["EncryptKey"]));
+        var paymentId = Convert.ToInt32(processedPaymentDto.PaymentId.Decrypt(_configuration["EncryptKey"]));
+
         var orderDb = _orderRepository.Select()
             .AsQueryable()
-            .Where(db => db.Id.Equals(paymentsDto.OrderId))?.FirstOrDefault();
+            .Where(db => db.Id == orderId)?.FirstOrDefault();
 
-        if (!orderDb.PaymentStatus.Equals(paymentsDto.PaymentStatus))
+        if (!orderDb.PaymentStatus.Equals(processedPaymentDto.PaymentStatus))
         {
-            orderDb.PaymentStatus = paymentsDto.PaymentStatus;
+            orderDb.PaymentStatus = processedPaymentDto.PaymentStatus;
+            orderDb.PaymentId = paymentId;
             _orderRepository.Update(orderDb);
             await _orderRepository.SaveChangesAsync();
         }

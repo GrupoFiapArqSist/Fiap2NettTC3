@@ -1,4 +1,5 @@
 ﻿using Order.Domain.Enums;
+using TicketNow.Domain.Enums;
 using TicketNow.Domain.Extensions;
 
 namespace Order.Domain.Dtos.Order
