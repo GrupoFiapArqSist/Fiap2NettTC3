@@ -24,7 +24,7 @@ public class EventController : Controller
     }
 
     [HttpPost]
-    [Authorize]
+    [Authorize(Roles = StaticUserRoles.PROMOTER)]
     [SwaggerOperation(Summary = "Add event")]
     [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(DefaultServiceResponseDto))]
     [SwaggerResponse((int)HttpStatusCode.BadRequest, Type = typeof(IReadOnlyCollection<Notification>))]
@@ -37,7 +37,7 @@ public class EventController : Controller
     }
 
     [HttpPut]
-    [Authorize]
+    [Authorize(Roles = StaticUserRoles.PROMOTER)]
     [SwaggerOperation(Summary = "Update event")]
     [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(DefaultServiceResponseDto))]
     [SwaggerResponse((int)HttpStatusCode.BadRequest, Type = typeof(IReadOnlyCollection<Notification>))]
@@ -80,7 +80,7 @@ public class EventController : Controller
     }
 
     [HttpGet("GetPendingEvents")]
-    [Authorize]
+    [Authorize(Roles = StaticUserRoles.ADMIN)]
     [SwaggerOperation(Summary = "Get all events pending")]
     [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(ICollection<EventDto>))]
     [SwaggerResponse((int)HttpStatusCode.BadRequest, Type = typeof(IReadOnlyCollection<Notification>))]
@@ -96,7 +96,7 @@ public class EventController : Controller
     }
 
     [HttpGet("GetByPromoter")]
-    [Authorize]
+    [Authorize(Roles = StaticUserRoles.PROMOTER)]
     [SwaggerOperation(Summary = "Get all events by promoter")]
     [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(ICollection<EventDto>))]
     [SwaggerResponse((int)HttpStatusCode.BadRequest, Type = typeof(IReadOnlyCollection<Notification>))]
@@ -113,7 +113,7 @@ public class EventController : Controller
     }
 
     [HttpPut("DisableById/{id}")]
-    [Authorize]
+    [Authorize(Roles = StaticUserRoles.PROMOTER)]
     [SwaggerOperation(Summary = "Disable event")]
     [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(DefaultServiceResponseDto))]
     [SwaggerResponse((int)HttpStatusCode.BadRequest, Type = typeof(IReadOnlyCollection<Notification>))]
@@ -126,7 +126,7 @@ public class EventController : Controller
     }
 
     [HttpPut("EnableById/{id}")]
-    [Authorize]
+    [Authorize(Roles = StaticUserRoles.PROMOTER)]
     [SwaggerOperation(Summary = "Enable event")]
     [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(DefaultServiceResponseDto))]
     [SwaggerResponse((int)HttpStatusCode.BadRequest, Type = typeof(IReadOnlyCollection<Notification>))]
@@ -139,7 +139,7 @@ public class EventController : Controller
     }
 
     [HttpDelete("{id}")]
-    [Authorize]
+    [Authorize(Roles = StaticUserRoles.PROMOTER)]
     [SwaggerOperation(Summary = "Delete event by id")]
     [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(DefaultServiceResponseDto))]
     [SwaggerResponse((int)HttpStatusCode.BadRequest, Type = typeof(IReadOnlyCollection<Notification>))]
@@ -153,7 +153,7 @@ public class EventController : Controller
     }
 
     [HttpPut("ApproveById/{id}")]
-    [Authorize]
+    [Authorize(Roles = StaticUserRoles.ADMIN)]
     [SwaggerOperation(Summary = "Approve event")]
     [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(DefaultServiceResponseDto))]
     [SwaggerResponse((int)HttpStatusCode.BadRequest, Type = typeof(IReadOnlyCollection<Notification>))]
@@ -166,7 +166,7 @@ public class EventController : Controller
     }
 
     [HttpPut("get-event-active-inative/{id}")]
-    [Authorize]
+    [Authorize(Roles = StaticUserRoles.ADMIN)]
     [SwaggerOperation(Summary = "Get event active or inative")]
     [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(DefaultServiceResponseDto))]
     [SwaggerResponse((int)HttpStatusCode.BadRequest, Type = typeof(IReadOnlyCollection<Notification>))]
