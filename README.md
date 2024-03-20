@@ -96,5 +96,6 @@ Microsserviço responsável pela simulação de pagamento, consumo e envio de ev
 
 Endpoints
 
-///FOTO///
+![image](https://github.com/GrupoFiapArqSist/Fiap2NettTC3/assets/75868307/70411710-bc09-4ce0-9bc4-08cf95a55e24)
+
 
