@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Azure.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Order.Domain.Dtos.Event;
@@ -28,7 +29,17 @@ public class OrderController : Controller
 		_mapper = mapper;
 	}
 
-	[HttpPost]
+	[AllowAnonymous]
+	[HttpGet("orders")]
+    public async Task<IActionResult> GetOrders()
+    {
+        var response = await _orderService.GetAllOrders();
+
+        return Ok(response);
+
+    }
+
+    [HttpPost]
 	[SwaggerOperation(Summary = "Create a new order")]
 	[SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(DefaultServiceResponseDto))]
 	[SwaggerResponse((int)HttpStatusCode.BadRequest, Type = typeof(IReadOnlyCollection<Notification>))]
@@ -41,7 +52,6 @@ public class OrderController : Controller
 		var accessToken = this.GetAccessToken();
 		var response = await _orderService.InsertNewOrderAsync(newOrderDto, AddOrderDto.AddOrderItemDto, accessToken);
 		return Ok(response);
-
 	}
 
 	[HttpGet]

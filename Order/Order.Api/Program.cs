@@ -119,32 +119,32 @@ services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
 
 #region [MassTransit]
-var paymentProcessedQueue = builder.Configuration.GetSection("MassTransit")["PaymentProcessedQueue"] ?? String.Empty;
-var Server = builder.Configuration.GetSection("MassTransit")["Server"];
-var User = builder.Configuration.GetSection("MassTransit")["User"];
-var Password = builder.Configuration.GetSection("MassTransit")["Password"];
+//var paymentProcessedQueue = builder.Configuration.GetSection("MassTransit")["PaymentProcessedQueue"] ?? String.Empty;
+//var Server = builder.Configuration.GetSection("MassTransit")["Server"];
+//var User = builder.Configuration.GetSection("MassTransit")["User"];
+//var Password = builder.Configuration.GetSection("MassTransit")["Password"];
 
-builder.Services.AddMassTransit((x =>
-{
-    x.UsingRabbitMq((context, cfg) =>
-    {
-        cfg.Host(Server, "/", h =>
-        {
-            h.Username(User);
-            h.Password(Password);
-        });
+//builder.Services.AddMassTransit((x =>
+//{
+//    x.UsingRabbitMq((context, cfg) =>
+//    {
+//        cfg.Host(Server, "/", h =>
+//        {
+//            h.Username(User);
+//            h.Password(Password);
+//        });
         
-        cfg.ConfigureEndpoints(context);
+//        cfg.ConfigureEndpoints(context);
 
-        cfg.ReceiveEndpoint(paymentProcessedQueue, e =>
-        {
-            e.Consumer<PaymentConsumidor>();
-        });
-    });
+//        cfg.ReceiveEndpoint(paymentProcessedQueue, e =>
+//        {
+//            e.Consumer<PaymentConsumidor>();
+//        });
+//    });
 
-    x.AddConsumer<PaymentConsumidor>();
+//    x.AddConsumer<PaymentConsumidor>();
 
-}));
+//}));
 
 #endregion
 
@@ -162,16 +162,15 @@ using (var scope = app.Services.CreateScope())
 #endregion
 
 #region [Swagger App]            
-if (app.Environment.IsDevelopment())
+
+app.UseDeveloperExceptionPage();
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseDeveloperExceptionPage();
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Order v1");
-        c.InjectStylesheet("/swagger-ui/SwaggerDark.css");
-    });
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Order v1");
+    c.InjectStylesheet("/swagger-ui/SwaggerDark.css");
+});
+
 #endregion
 
 #region [Cors]            

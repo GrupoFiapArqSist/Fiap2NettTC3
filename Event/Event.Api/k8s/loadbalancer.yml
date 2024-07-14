@@ -1,0 +1,12 @@
+﻿apiVersion: v1
+kind: Service
+metadata:
+  name: apievent-loadbalancer
+spec:
+  selector:
+    app: apievent
+  ports:
+    - protocol: TCP
+      port: 81
+      targetPort: 81
+  type: LoadBalancer

@@ -1,0 +1,19 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apiorder
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: apiorder
+  template:
+    metadata:
+      labels:
+        app: apiorder
+    spec:
+      containers:
+        - name: apiorder
+          image: joaogasparini/fiap-order:latest
+          ports:
+            - containerPort: 80

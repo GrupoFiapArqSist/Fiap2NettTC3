@@ -30,8 +30,8 @@ public class EventService : BaseService, IEventService
     public async Task<DefaultServiceResponseDto> AddEventAsync(AddEventDto addEventDto, int promoterId)
     {
         addEventDto.PromoterId = promoterId;
-        var validationResult = Validate(addEventDto, Activator.CreateInstance<AddEventValidator>());
-        if (!validationResult.IsValid) { _notificationContext.AddNotifications(validationResult.Errors); return default; }
+            var validationResult = Validate(addEventDto, Activator.CreateInstance<AddEventValidator>());
+            if (!validationResult.IsValid) { _notificationContext.AddNotifications(validationResult.Errors); return default; }
 
         var entity = _mapper.Map<Domain.Entities.Event>(addEventDto);
 

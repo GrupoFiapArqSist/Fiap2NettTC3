@@ -9,4 +9,5 @@ public interface IBaseRepository<T, G>
     IList<T> Select();
     T Select(G id);
     Task<int> SaveChangesAsync();
+    Task<IList<T>> SelectAsync();
 }

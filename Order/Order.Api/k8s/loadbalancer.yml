@@ -1,0 +1,13 @@
+﻿apiVersion: v1
+kind: Service
+metadata:
+  name: apiorder-loadbalancer
+spec:
+  selector:
+    app: apiorder
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 31840
+  type: LoadBalancer

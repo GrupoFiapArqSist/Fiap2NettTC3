@@ -28,10 +28,10 @@ public class OrderService : BaseService, IOrderService
     private readonly IConfiguration _configuration;
     private readonly IEventIntegration _eventIntegration;
     private readonly NotificationContext _notificationContext;
-    private readonly IBus _bus;
+    //private readonly IBus _bus;
 
     public OrderService(IOrderRepository orderRepository, IOrderItemRepository orderItemRepository, IMapper mapper, IConfiguration configuration,
-        IEventIntegration eventIntegration, NotificationContext notificationContext, IBus bus)
+        IEventIntegration eventIntegration, NotificationContext notificationContext)//, IBus bus)
     {
         _orderRepository = orderRepository;
         _mapper = mapper;
@@ -39,7 +39,17 @@ public class OrderService : BaseService, IOrderService
         _configuration = configuration;
         _eventIntegration = eventIntegration;
         _notificationContext = notificationContext;
-        _bus = bus;
+        //_bus = bus;
+    }
+    
+    public async Task<List<Domain.Entities.Order>> GetAllOrders()
+    {
+        var ltOrderDb = (await _orderRepository.SelectAsync())
+           .AsQueryable()
+           .OrderByDescending(p => p.CreatedAt)
+           .ToList();
+
+        return ltOrderDb;
     }
 
     public async Task<DefaultServiceResponseDto> InsertNewOrderAsync(OrderDto newOrderDto, List<AddOrderItemDto> addOrderItemDtos, string accessToken)
@@ -140,10 +150,10 @@ public class OrderService : BaseService, IOrderService
 
     public async Task<DefaultServiceResponseDto> SendPaymentsToProcessQueueAsync(PaymentsDto paymentsDto)
     {
-        var nomeFila = _configuration.GetSection("MassTransit")["OrderProcessedQueue"];
-        var endpoint = await _bus.GetSendEndpoint(new Uri($"queue:{nomeFila}"));
+        //var nomeFila = _configuration.GetSection("MassTransit")["OrderProcessedQueue"];
+        //var endpoint = await _bus.GetSendEndpoint(new Uri($"queue:{nomeFila}"));
 
-        await endpoint.Send(paymentsDto);
+        //await endpoint.Send(paymentsDto);
 
         return new DefaultServiceResponseDto() { Message = StaticNotifications.SendPaymentsToProcessQueueu.Message, Success = true };
     }
