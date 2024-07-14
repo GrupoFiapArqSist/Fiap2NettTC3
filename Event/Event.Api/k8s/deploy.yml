@@ -1,19 +1,19 @@
 ﻿apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: apiorder
+  name: apievent
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: apiorder
+      app: apievent
   template:
     metadata:
       labels:
-        app: apiorder
+        app: apievent
     spec:
       containers:
-        - name: apiorder
-          image: joaogasparini/fiap-order:latest
+        - name: apievent
+          image: joaogasparini/fiap-event:latest
           ports:
             - containerPort: 81
