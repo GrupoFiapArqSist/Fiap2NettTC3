@@ -139,16 +139,15 @@ using (var scope = app.Services.CreateScope())
 #endregion
 
 #region [Swagger App]            
-if (app.Environment.IsDevelopment())
+
+app.UseDeveloperExceptionPage();
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseDeveloperExceptionPage();
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Customer v1");
-        c.InjectStylesheet("/swagger-ui/SwaggerDark.css");
-    });
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Customer v1");
+    c.InjectStylesheet("/swagger-ui/SwaggerDark.css");
+});
+
 #endregion
 
 #region [Cors]            

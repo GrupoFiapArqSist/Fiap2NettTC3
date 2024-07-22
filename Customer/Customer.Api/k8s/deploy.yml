@@ -1,0 +1,19 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apicustomer
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: apicustomer
+  template:
+    metadata:
+      labels:
+        app: apicustomer
+    spec:
+      containers:
+        - name: apicustumer
+          image: joaogasparini/fiap-customer:latest
+          ports:
+            - containerPort: 82

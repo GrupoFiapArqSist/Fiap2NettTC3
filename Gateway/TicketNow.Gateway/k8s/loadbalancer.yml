@@ -1,0 +1,12 @@
+﻿apiVersion: v1
+kind: Service
+metadata:
+  name: apigateway-loadbalancer
+spec:
+  selector:
+    app: apigateway
+  ports:
+    - protocol: TCP
+      port: 83
+      targetPort: 83
+  type: LoadBalancer
